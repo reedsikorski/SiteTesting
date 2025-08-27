@@ -8,14 +8,15 @@ import requests
 window=Tk()
 chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
-window.geometry("700x350")
+window.geometry("1000x400")
 window.title("Site Checker")
 head=Label(window, text="Website Connectivity Checker", font=('Calibri 15'))
-head.pack(pady=20, side=tk.RIGHT)
-listbox = tk.Listbox(window,height=6)
-listbox.pack(padx=10, pady=10, expand=True, fill=tk.BOTH, side=tk.LEFT)
+head.grid(row=1,column=1, pady=25)
+listbox = tk.Listbox(window,height=10,width=100)
+listbox.grid(row=0,column=0,padx=25, rowspan=6)
 url=tk.StringVar()
-Entry(window, textvariable=url).place(x=450,y=80,height=30,width=240)
+entry = Entry(window, textvariable=url)
+entry.grid(row=2, column=1)
 
 def check():
     web=(url.get())
@@ -48,7 +49,12 @@ def execute(webpage):
         listbox.insert(END,webpage + " responded with an error of " + str(e))
 
 var1 = tk.IntVar()
-Button(window, text="Check", command=check).place(x=550, y=200)
-Checkbutton(window, text="Open in browser?",variable=var1,onvalue=1, offvalue=0).place(x=500, y=250)
+var2 = tk.IntVar()
+button = Button(window, text="Check", command=check)
+button.grid(row=3,column=1)
+check1 = Checkbutton(window, text="Open in browser?",variable=var1,onvalue=1, offvalue=0)
+check1.grid(row=4,column=1)
+check2=Checkbutton(window, text="Save results to CSV?",variable=var2,onvalue=1, offvalue=0)
+check2.grid(row=5,column=1)
 window.mainloop()
 

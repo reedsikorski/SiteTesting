@@ -9,7 +9,7 @@ import requests
 window=Tk()
 chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
-window.geometry("1000x400")
+window.geometry("1000x200")
 window.configure(bg='#F1F7ED')
 window.title("Site Checker")
 style = ttk.Style()

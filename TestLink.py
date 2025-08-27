@@ -10,12 +10,11 @@ webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
 window.geometry("700x350")
 window.title("Site Checker")
 head=Label(window, text="Website Connectivity Checker", font=('Calibri 15'))
-listbox = tk.Listbox(
-    window,
-    height=6,
-)
-listbox.pack(padx=10, pady=10, expand=True, fill=tk.BOTH, side=tk.LEFT)
 head.pack(pady=20, side=tk.RIGHT)
+listbox = tk.Listbox(window,height=6)
+listbox.pack(padx=10, pady=10, expand=True, fill=tk.BOTH, side=tk.LEFT)
+url=tk.StringVar()
+Entry(window, textvariable=url).place(x=450,y=80,height=30,width=240)
 
 def check():
     web=(url.get())
@@ -34,7 +33,8 @@ def check():
 
 def execute(webpage, num):
     try:
-        subprocess.Popen([chrome_path, "--incognito","--new-window", webpage])
+        if (var1.get() == 1):
+            subprocess.Popen([chrome_path, "--incognito","--new-window", webpage])
         status_code = urllib.request.urlopen(webpage).getcode()
         website_is_up = status_code == 200
         if website_is_up:
@@ -44,12 +44,8 @@ def execute(webpage, num):
     except Exception as e:
         Label(window, text=f"Error: {e}", font=('Calibri', 10), fg="red").place(x=460, y=250)
 
-
-url=tk.StringVar()
-Entry(window, textvariable=url).place(x=450,y=80,height=30,width=240)
+var1 = tk.IntVar()
 Button(window, text="Check", command=check).place(x=550, y=200)
-
+Checkbutton(window, text="Open in browser?",variable=var1,onvalue=1, offvalue=0).place(x=500, y=250)
 window.mainloop()
-
-# url=tk.StringVar()
 

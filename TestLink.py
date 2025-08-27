@@ -1,5 +1,6 @@
 import urllib.request
 from tkinter import *
+from tkinter import ttk
 import tkinter as tk
 import webbrowser
 import subprocess
@@ -9,14 +10,19 @@ window=Tk()
 chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
 window.geometry("1000x400")
+window.configure(bg='#F1F7ED')
 window.title("Site Checker")
-head=Label(window, text="Website Connectivity Checker", font=('Calibri 15'))
+style = ttk.Style()
+style.configure("Label", foreground='#5ebec4', background='#F1F7ED')
+head=Label(window, text="Website Connectivity Checker", fg="#54494B", font=('Sans-serif',15),background='#F1F7ED')
 head.grid(row=1,column=1, pady=25)
 listbox = tk.Listbox(window,height=10,width=100)
 listbox.grid(row=0,column=0,padx=25, rowspan=6)
 url=tk.StringVar()
 entry = Entry(window, textvariable=url)
 entry.grid(row=2, column=1)
+
+
 
 def check():
     web=(url.get())
@@ -51,10 +57,10 @@ def execute(webpage):
 var1 = tk.IntVar()
 var2 = tk.IntVar()
 button = Button(window, text="Check", command=check)
-button.grid(row=3,column=1)
-check1 = Checkbutton(window, text="Open in browser?",variable=var1,onvalue=1, offvalue=0)
+button.grid(row=3,column=1,pady=10)
+check1 = Checkbutton(window, text="Open in browser?",variable=var1,onvalue=1, offvalue=0, fg='#54494B', font=('Sans-serif',12),background='#F1F7ED')
 check1.grid(row=4,column=1)
-check2=Checkbutton(window, text="Save results to CSV?",variable=var2,onvalue=1, offvalue=0)
+check2=Checkbutton(window, text="Save results to CSV?",variable=var2,onvalue=1, offvalue=0, fg='#54494B', font=('Sans-serif',12),background='#F1F7ED')
 check2.grid(row=5,column=1)
 window.mainloop()
 

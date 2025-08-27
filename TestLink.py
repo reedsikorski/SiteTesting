@@ -3,6 +3,7 @@ from tkinter import *
 import tkinter as tk
 import webbrowser
 import subprocess
+import requests
 
 window=Tk()
 chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
@@ -20,29 +21,31 @@ def check():
     web=(url.get())
     if "," in web:
         urlList = [u.strip() for u in web.split(",")]
-        print(urlList)
         num = 1
         for web1 in urlList:
             web1 = "https://" + web1
-            execute(web1, num)
-            num = num+1
+            execute(web1)
     else:
-        urlList = [web.strip()]  
+        if url.get().startswith("https://"):
+            execute(url.get())
+        else:
+            execute("https://" + url.get()) 
            
                     
 
-def execute(webpage, num):
+def execute(webpage):
     try:
-        if (var1.get() == 1):
-            subprocess.Popen([chrome_path, "--incognito","--new-window", webpage])
-        status_code = urllib.request.urlopen(webpage).getcode()
-        website_is_up = status_code == 200
-        if website_is_up:
-            listbox.insert(END,webpage + " is available")
+        # status_code = urllib.request.urlopen(webpage).getcode()
+        # website_is_up = status_code == 200
+        r = requests.get(webpage)
+        if r.status_code == 200:
+            listbox.insert(END,webpage + " is available with a status code of 200")
+            if (var1.get() == 1):
+                subprocess.Popen([chrome_path, "--incognito","--new-window", webpage])
         else:
-            listbox.insert(END,webpage + " is available")
+            listbox.insert(END,webpage + " responded with a code of " + r.status_code)
     except Exception as e:
-        Label(window, text=f"Error: {e}", font=('Calibri', 10), fg="red").place(x=460, y=250)
+        listbox.insert(END,webpage + " responded with an error of " + str(e))
 
 var1 = tk.IntVar()
 Button(window, text="Check", command=check).place(x=550, y=200)

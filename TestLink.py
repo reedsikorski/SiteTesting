@@ -22,7 +22,8 @@ listbox.grid(row=0,column=0,padx=25, rowspan=6)
 url=tk.StringVar()
 entry = Entry(window, textvariable=url)
 entry.grid(row=2, column=1)
-csvFile = []
+csvList = []
+csv_file = 'fileresults.csv'
 
 
 def check():
@@ -37,9 +38,14 @@ def check():
         if url.get().startswith("https://"):
             execute(url.get())
         else:
-            execute("https://" + url.get()) 
+            execute("https://" + url.get())
+    print(csvList)
+    if (var2.get() == 1):
+        with open(csv_file, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(csvList) 
            
-                    
+                
 
 def execute(webpage):
     info = ""
@@ -58,6 +64,8 @@ def execute(webpage):
     except Exception as e:
         info = webpage + " responded with an error of " + str(e)
         listbox.insert(END,info)
+    infoList = [webpage,info]
+    csvList.append(infoList)
 
 var1 = tk.IntVar()
 var2 = tk.IntVar()
@@ -67,5 +75,6 @@ check1 = Checkbutton(window, text="Open in browser?",variable=var1,onvalue=1, of
 check1.grid(row=4,column=1)
 check2=Checkbutton(window, text="Save results to CSV?",variable=var2,onvalue=1, offvalue=0, fg='#54494B', font=('Sans-serif',12),background='#F1F7ED')
 check2.grid(row=5,column=1)
+
 window.mainloop()
 

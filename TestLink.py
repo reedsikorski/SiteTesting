@@ -5,6 +5,7 @@ import tkinter as tk
 import webbrowser
 import subprocess
 import requests
+import csv
 
 window=Tk()
 chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
@@ -21,7 +22,7 @@ listbox.grid(row=0,column=0,padx=25, rowspan=6)
 url=tk.StringVar()
 entry = Entry(window, textvariable=url)
 entry.grid(row=2, column=1)
-
+csvFile = []
 
 
 def check():
@@ -41,18 +42,22 @@ def check():
                     
 
 def execute(webpage):
+    info = ""
     try:
         # status_code = urllib.request.urlopen(webpage).getcode()
         # website_is_up = status_code == 200
         r = requests.get(webpage)
         if r.status_code == 200:
-            listbox.insert(END,webpage + " is available with a status code of 200")
+            info = webpage + " is available with a status code of 200"
+            listbox.insert(END,info)
             if (var1.get() == 1):
                 subprocess.Popen([chrome_path, "--incognito","--new-window", webpage])
         else:
-            listbox.insert(END,webpage + " responded with a code of " + r.status_code)
+            info = webpage + " responded with a code of " + r.status_code
+            listbox.insert(END,info)
     except Exception as e:
-        listbox.insert(END,webpage + " responded with an error of " + str(e))
+        info = webpage + " responded with an error of " + str(e)
+        listbox.insert(END,info)
 
 var1 = tk.IntVar()
 var2 = tk.IntVar()

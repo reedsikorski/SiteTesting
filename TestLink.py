@@ -10,7 +10,7 @@ import csv
 window=Tk()
 chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
-window.geometry("1000x200")
+window.geometry("1000x250")
 window.configure(bg='#F1F7ED')
 window.title("Site Checker")
 style = ttk.Style()
@@ -22,7 +22,7 @@ listbox.grid(row=0,column=0,padx=25, rowspan=6)
 url=tk.StringVar()
 entry = Entry(window, textvariable=url)
 entry.grid(row=2, column=1)
-csvList = []
+csvList = [["URL","Results"]]
 csv_file = 'fileresults.csv'
 
 
@@ -49,9 +49,8 @@ def check():
 
 def execute(webpage):
     info = ""
+    headers = ""
     try:
-        # status_code = urllib.request.urlopen(webpage).getcode()
-        # website_is_up = status_code == 200
         r = requests.get(webpage)
         if r.status_code == 200:
             info = webpage + " is available with a status code of 200"
@@ -69,12 +68,16 @@ def execute(webpage):
 
 var1 = tk.IntVar()
 var2 = tk.IntVar()
+var3 = tk.IntVar()
 button = Button(window, text="Check", command=check)
 button.grid(row=3,column=1,pady=10)
-check1 = Checkbutton(window, text="Open in browser?",variable=var1,onvalue=1, offvalue=0, fg='#54494B', font=('Sans-serif',12),background='#F1F7ED')
+check1 = Checkbutton(window, text="Open in Browser",variable=var1,onvalue=1, offvalue=0, fg='#54494B', font=('Sans-serif',12),background='#F1F7ED')
 check1.grid(row=4,column=1)
-check2=Checkbutton(window, text="Save results to CSV?",variable=var2,onvalue=1, offvalue=0, fg='#54494B', font=('Sans-serif',12),background='#F1F7ED')
+check2=Checkbutton(window, text="Save to CSV",variable=var2,onvalue=1, offvalue=0, fg='#54494B', font=('Sans-serif',12),background='#F1F7ED')
 check2.grid(row=5,column=1)
+check3=Checkbutton(window, text="Response Headers",variable=var3,onvalue=1, offvalue=0, fg='#54494B', font=('Sans-serif',12),background='#F1F7ED')
+check3.grid(row=6,column=1)
+
 
 window.mainloop()
 
